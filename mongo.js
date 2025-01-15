@@ -11,16 +11,7 @@ const password = process.argv[2]
 const url = `mongodb+srv://oonanykanen:${password}@cluster0.je8xz.mongodb.net/Fullstack_4_TEST?retryWrites=true&w=majority&appName=Cluster0`
 
 mongoose.set('strictQuery', false)
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
-  const blogSchema = new mongoose.Schema({
-    title: String,
-    author: String,
-    url: String,
-    likes: Number
-  })
-
-  const Blog = mongoose.model('Blog', blogSchema)
-
+mongoose.connect(url).then(() => {
   const initialBlogs = [
     {
       title: 'First blog',
