@@ -1,35 +1,45 @@
 const mongoose = require('mongoose')
-const Blog = require('../models/blog')
-const config = require('./config')
+const Blog = require('./models/blog')
 
-mongoose.connect(config.TEST_MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-
-const addBlogs = async (blogs) => {
-  await Blog.deleteMany({})
-  await Blog.insertMany(blogs)
+if (process.argv.length < 3) {
+  console.log('give password as argument')
+  process.exit(1)
 }
 
-const initialBlogs = [
-  {
-    title: 'First blog',
-    author: 'Author One',
-    url: 'http://example.com/first',
-    likes: 1
-  },
-  {
-    title: 'Second blog',
-    author: 'Author Two',
-    url: 'http://example.com/second',
-    likes: 2
-  }
-]
+const password = process.argv[2]
 
-const addInitialBlogs = async () => {
-  await addBlogs(initialBlogs)
-}
+const url = `mongodb+srv://oonanykanen:${password}@cluster0.je8xz.mongodb.net/Fullstack_4_TEST?retryWrites=true&w=majority&appName=Cluster0`
 
-module.exports = {
-  addBlogs,
-  addInitialBlogs,
-  initialBlogs
-}
+mongoose.set('strictQuery', false)
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+  const blogSchema = new mongoose.Schema({
+    title: String,
+    author: String,
+    url: String,
+    likes: Number
+  })
+
+  const Blog = mongoose.model('Blog', blogSchema)
+
+  const initialBlogs = [
+    {
+      title: 'First blog',
+      author: 'Author One',
+      url: 'http://example.com/first',
+      likes: 1
+    },
+    {
+      title: 'Second blog',
+      author: 'Author Two',
+      url: 'http://example.com/second',
+      likes: 2
+    }
+  ]
+
+  Blog.deleteMany({}).then(() => {
+    Blog.insertMany(initialBlogs).then(() => {
+      console.log('blogs added!')
+      mongoose.connection.close()
+    })
+  })
+})
