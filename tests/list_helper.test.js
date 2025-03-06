@@ -2,6 +2,7 @@ const { test, describe } = require('node:test')
 const assert = require('node:assert')
 const listHelper = require('../utils/list_helper')
 
+
 test('dummy returns one', () => {
   const blogs = []
 
@@ -109,7 +110,7 @@ describe('favorite blog', () => {
 describe('most blogs', () => {
   test('when list has multiple blogs, returns the author with most blogs', () => {
     const result = listHelper.mostBlogs(listWithMultipleBlogs)
-    console.log('Most blogs:', result) // Tulostaa paluuarvon konsoliin
+    console.log('Most blogs:', result) 
     assert.deepStrictEqual(result, {
       author: 'Robert C. Martin',
       blogs: 3
@@ -118,7 +119,7 @@ describe('most blogs', () => {
 
   test('when list is empty, returns null', () => {
     const result = listHelper.mostBlogs([])
-    console.log('Most blogs (empty list):', result) // Tulostaa paluuarvon konsoliin
+    console.log('Most blogs (empty list):', result) 
     assert.strictEqual(result, null)
   })
 })
@@ -126,7 +127,7 @@ describe('most blogs', () => {
 describe('most likes', () => {
   test('when list has multiple blogs, returns the author with most likes', () => {
     const result = listHelper.mostLikes(listWithMultipleBlogs)
-    console.log('Most likes:', result) // Tulostaa paluuarvon konsoliin
+    console.log('Most likes:', result) 
     assert.deepStrictEqual(result, {
       author: 'Edsger W. Dijkstra',
       likes: 17
@@ -135,7 +136,7 @@ describe('most likes', () => {
 
   test('when list is empty, returns null', () => {
     const result = listHelper.mostLikes([])
-    console.log('Most likes (empty list):', result) // Tulostaa paluuarvon konsoliin
+    console.log('Most likes (empty list):', result)
     assert.strictEqual(result, null)
   })
 })
